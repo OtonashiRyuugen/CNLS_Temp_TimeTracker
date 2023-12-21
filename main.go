@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Specify the domain for which you want to get a TLS certificate
-	domain := "your-domain.com"
+	domain := "cnls.io"
 
 	// Setup automatic certificate management with Let's Encrypt via Cloudflare DNS
 	m := autocert.Manager{

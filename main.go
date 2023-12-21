@@ -4,12 +4,13 @@ import (
 	"crypto/tls"
 	"fmt"
 	"golang.org/x/crypto/acme/autocert"
+	"net"
 	"net/http"
 )
 
 func main() {
 	// Specify the domain for which you want to get a TLS certificate
-	domain := "cnls.io"
+	domain := "your-domain.com"
 
 	// Setup automatic certificate management with Let's Encrypt via Cloudflare DNS
 	m := autocert.Manager{
@@ -18,9 +19,16 @@ func main() {
 		Cache:      autocert.DirCache("certs"), // Store certificates in a cache directory
 	}
 
+	// Create a TCP listener on a specific IPv4 address and port 443
+	listener, err := net.Listen("tcp4", ":443")
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
 	// Create a new HTTP server
 	server := &http.Server{
-		Addr:    "[::]:443", // Listen on all available addresses for IPv4 and IPv6
+		Addr:    ":443",
 		Handler: http.HandlerFunc(handler),
 		TLSConfig: &tls.Config{
 			GetCertificate: m.GetCertificate,
@@ -31,7 +39,7 @@ func main() {
 	fmt.Printf("Server is running on https://%s\n", domain)
 
 	// Start the HTTPS server
-	err := server.ListenAndServeTLS("", "")
+	err = server.ServeTLS(listener, "", "")
 	if err != nil {
 		fmt.Println("Error:", err)
 	}

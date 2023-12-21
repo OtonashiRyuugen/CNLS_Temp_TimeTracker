@@ -20,7 +20,7 @@ func main() {
 
 	// Create a new HTTP server
 	server := &http.Server{
-		Addr:    ":443",
+		Addr:    "[::]:443", // Listen on all available addresses for IPv4 and IPv6
 		Handler: http.HandlerFunc(handler),
 		TLSConfig: &tls.Config{
 			GetCertificate: m.GetCertificate,

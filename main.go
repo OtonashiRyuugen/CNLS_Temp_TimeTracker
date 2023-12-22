@@ -15,32 +15,63 @@ func main() {
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<style>
 					body {
-						font-family: Arial, sans-serif;
+						font-family: 'Comic Sans MS', cursive, sans-serif;
 						display: flex;
 						flex-direction: column;
 						align-items: center;
 						justify-content: center;
 						height: 100vh;
 						margin: 0;
+						background-color: #ffffcc;
+					}
+			
+					#header {
+						display: flex;
+						justify-content: space-between;
+						width: 100%;
+						padding: 0 20px;
+						box-sizing: border-box;
+						background-color: #ffcc66;
+						margin-bottom: 20px;
+						border-bottom: 2px solid #cc9900;
 					}
 			
 					#clock {
 						font-size: 24px;
-						margin-bottom: 20px;
+						color: #cc0000;
+						text-shadow: 2px 2px 4px #ff6666;
 					}
 			
 					#nameInput {
-						margin-bottom: 10px;
+						margin-right: 10px;
+						padding: 5px;
+						border: 1px solid #666666;
+						background-color: #ffffe6;
+					}
+			
+					#nameForm {
+						display: flex;
 					}
 			
 					.nameEntry {
 						display: flex;
 						flex-direction: column;
 						align-items: center;
-						margin-top: 10px;
-						border: 1px solid #ccc;
+						margin: 10px;
+						border: 2px solid #cc9900;
 						padding: 10px;
 						max-width: 300px;
+						background-color: #ffcc99;
+					}
+			
+					.removeButton {
+						cursor: pointer;
+						color: #cc0000;
+						margin-top: 5px;
+						background-color: #ffe6e6;
+						border: 1px solid #cc0000;
+						padding: 3px 8px;
+						border-radius: 5px;
 					}
 				</style>
 				<script>
@@ -69,6 +100,15 @@ func main() {
 			
 						var remainingTimeElement = document.createElement('p');
 						nameEntryContainer.appendChild(remainingTimeElement);
+			
+						var removeButton = document.createElement('button');
+						removeButton.className = 'removeButton';
+						removeButton.innerText = 'Remove';
+						removeButton.addEventListener('click', function () {
+							document.body.removeChild(nameEntryContainer);
+							clearInterval(intervalId);
+						});
+						nameEntryContainer.appendChild(removeButton);
 			
 						document.body.appendChild(nameEntryContainer);
 			
@@ -106,18 +146,22 @@ func main() {
 				</script>
 			</head>
 			<body>
-
-			<div id="clock"></div>
 			
-			<form id="nameForm">
-				<label for="nameInput">Name:</label>
-				<input type="text" id="nameInput" required>
-				<button type="submit" name="submit" value="1">1 Hour</button>
-				<button type="submit" name="submit" value="2">2 Hours</button>
-			</form>
+			<div id="header">
+				<div>
+					<div id="clock"></div>
+					<form id="nameForm">
+						<label for="nameInput">Name:</label>
+						<input type="text" id="nameInput" required>
+						<button type="submit" name="submit" value="1">1 Hour</button>
+						<button type="submit" name="submit" value="2">2 Hours</button>
+					</form>
+				</div>
+			</div>
 			
 			</body>
 			</html>
+
 
 		`
 		fmt.Fprint(w, html)
